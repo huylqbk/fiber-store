@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
@@ -25,6 +26,7 @@ func main() {
 
 	// Middleware
 	app.Use(logger.New())
+	app.Use(cors.New())
 
 	s := service.NewService("play.minio.io", "Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG", false)
 
