@@ -3,6 +3,8 @@ package main
 import (
 	"boilerplate/database"
 	"boilerplate/handlers"
+	"fmt"
+	"os"
 
 	"flag"
 	"log"
@@ -18,6 +20,12 @@ var (
 func main() {
 	// Connected with database
 	database.Connect()
+	portEnv := os.Getenv("PORT")
+	if portEnv == "" {
+		portEnv = *port
+	} else {
+		portEnv = fmt.Sprintf(":%v", portEnv)
+	}
 
 	// Create fiber app
 	app := fiber.New(fiber.Config{})
