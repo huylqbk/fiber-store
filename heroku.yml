@@ -1,6 +1,3 @@
 build:
-  languages:
-    - go
-
-run:
-  web: app
+  docker:
+    web: Dockerfile
