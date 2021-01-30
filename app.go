@@ -3,6 +3,7 @@ package main
 import (
 	"boilerplate/database"
 	"boilerplate/handlers"
+	"boilerplate/service"
 	"os"
 
 	"log"
@@ -25,12 +26,16 @@ func main() {
 	// Middleware
 	app.Use(logger.New())
 
+	s := service.NewService("play.minio.io", "Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG", false)
+
 	// Create a /api/v1 endpoint
 	v1 := app.Group("/api/v1")
 
 	// Bind handlers
 	v1.Get("/users", handlers.UserList)
 	v1.Post("/users", handlers.UserCreate)
+	v1.Post("/file", handlers.PushFile(s))
+	v1.Get("/file/:path", handlers.GetFile(s))
 
 	// Setup static files
 	app.Get("/", handlers.HealthCheck)
