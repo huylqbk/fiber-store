@@ -75,7 +75,7 @@ func PushFile(s service.MinioService) func(c *fiber.Ctx) error {
 			})
 		}
 
-		path := fmt.Sprintf("%s_%d", strings.Replace(file.Filename, "/", "-", -1), (time.Now().UnixNano()))
+		path := fmt.Sprintf("%d_%s", time.Now().UnixNano(), strings.Replace(file.Filename, "/", "-", -1))
 		err = s.PutFile("nttransfer", path, buf.Bytes())
 		if err != nil {
 			return c.Status(400).JSON(fiber.Map{
