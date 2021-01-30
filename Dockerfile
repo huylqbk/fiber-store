@@ -21,6 +21,4 @@ WORKDIR /app
 # `boilerplate` should be replaced here as well
 COPY --from=build /go/src/boilerplate/app .
 
-EXPOSE 5000
-
 CMD ["./app"]

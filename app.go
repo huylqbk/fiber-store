@@ -3,18 +3,12 @@ package main
 import (
 	"boilerplate/database"
 	"boilerplate/handlers"
-	"fmt"
 	"os"
 
-	"flag"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-)
-
-var (
-	port = flag.String("port", ":5000", "Port to listen on")
 )
 
 func main() {
@@ -22,9 +16,7 @@ func main() {
 	database.Connect()
 	portEnv := os.Getenv("PORT")
 	if portEnv == "" {
-		portEnv = *port
-	} else {
-		portEnv = fmt.Sprintf(":%v", portEnv)
+		portEnv = "5000"
 	}
 
 	// Create fiber app
@@ -42,5 +34,5 @@ func main() {
 
 	// Setup static files
 	app.Get("/", handlers.HealthCheck)
-	log.Fatal(app.Listen(*port))
+	log.Fatal(app.Listen(":" + portEnv))
 }
