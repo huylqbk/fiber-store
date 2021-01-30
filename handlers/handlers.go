@@ -100,6 +100,13 @@ func GetFile(s service.MinioService) func(c *fiber.Ctx) error {
 				"status": "failure",
 			})
 		}
+		err = s.DeleteFile("nttransfer", path)
+		if err != nil {
+			return c.Status(400).JSON(fiber.Map{
+				"error":  err,
+				"status": "failure",
+			})
+		}
 		return c.Status(200).Send(data)
 	}
 }

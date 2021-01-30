@@ -88,3 +88,7 @@ func (d *dao) GetListBucket() error {
 	}
 	return nil
 }
+
+func (d *dao) DeleteFile(bucket string, path string) error {
+	return d.client.RemoveObject(bucket, path)
+}

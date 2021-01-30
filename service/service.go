@@ -6,4 +6,5 @@ type MinioService interface {
 	CreateBucket(name string) error
 	BucketExists(name string) bool
 	GetListBucket() error
+	DeleteFile(bucket string, path string) error
 }
