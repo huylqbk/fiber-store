@@ -84,7 +84,7 @@ func PushFile(s service.MinioService) func(c *fiber.Ctx) error {
 			})
 		}
 		return c.Status(200).JSON(fiber.Map{
-			"path":   path,
+			"path":   "http://nttransfer-api.herokuapp.com/download/" + path,
 			"status": "success",
 		})
 	}

@@ -35,7 +35,7 @@ func main() {
 	v1.Get("/users", handlers.UserList)
 	v1.Post("/users", handlers.UserCreate)
 	v1.Post("/file", handlers.PushFile(s))
-	v1.Get("/file/:path", handlers.GetFile(s))
+	app.Get("/download/:path", handlers.GetFile(s))
 
 	// Setup static files
 	app.Get("/", handlers.HealthCheck)
