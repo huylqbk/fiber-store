@@ -1,6 +1,7 @@
 package main
 
 import (
+	"boilerplate/common"
 	"boilerplate/database"
 	"boilerplate/handlers"
 	"boilerplate/service"
@@ -27,23 +28,35 @@ func main() {
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			// Statuscode defaults to 500
 			code := fiber.StatusInternalServerError
+			response := common.ResponseMessage{
+				Code:    fiber.StatusInternalServerError,
+				Message: err.Error(),
+			}
 
 			// Retreive the custom statuscode if it's an fiber.*Error
-			if e, ok := err.(*fiber.Error); ok {
+			if e, ok := err.(*common.ResponseMessage); ok {
 				code = e.Code
+				response = *e
 			}
 
-			// Send custom error page
-			err = ctx.Status(code).JSON(fiber.Map{
-				"message": err.Error(),
-			})
-			if err != nil {
-				// In case the SendFile fails
-				return ctx.Status(500).JSON(fiber.Map{
-					"message": "Internal Server Error",
-				})
+			if response.Type == common.FileType {
+				err = ctx.Status(code).Send(response.Data.([]byte))
+				if err != nil {
+					// In case the SendFile fails
+					return ctx.Status(500).JSON(fiber.Map{
+						"message": "Internal Server Error",
+					})
+				}
+			} else {
+				// Send custom error page
+				err = ctx.Status(code).JSON(response)
+				if err != nil {
+					// In case the json fails
+					return ctx.Status(500).JSON(fiber.Map{
+						"message": "Internal Server Error",
+					})
+				}
 			}
-
 			// Return from handler
 			return nil
 		},
@@ -52,9 +65,7 @@ func main() {
 	// Middleware
 	app.Use(logger.New())
 	app.Use(cors.New())
-	app.Use(recover.New(recover.Config{
-		EnableStackTrace: true,
-	}))
+	app.Use(recover.New())
 
 	s := service.NewService("play.minio.io", "Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG", false)
 

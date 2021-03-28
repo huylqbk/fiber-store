@@ -37,9 +37,7 @@ func UserCreate(c *fiber.Ctx) error {
 }
 
 func HealthCheck(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{
-		"success": true,
-	})
+	return common.NewResponse(200, "ok", nil, 0)
 }
 
 func PanicCheck(c *fiber.Ctx) error {

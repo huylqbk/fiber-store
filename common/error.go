@@ -4,5 +4,5 @@ func CheckError(err error) {
 	if err == nil {
 		return
 	}
-	panic(err)
+	NewResponse(400, err.Error(), nil, 0)
 }
