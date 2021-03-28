@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"boilerplate/common"
 	"boilerplate/database"
 	"boilerplate/models"
 	"boilerplate/service"
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -38,6 +40,11 @@ func HealthCheck(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"success": true,
 	})
+}
+
+func PanicCheck(c *fiber.Ctx) error {
+	common.CheckError(errors.New("ok"))
+	return nil
 }
 
 func PushFile(s service.MinioService) func(c *fiber.Ctx) error {
