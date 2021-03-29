@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/go-ini/ini v1.62.0 // indirect
-	github.com/gofiber/fiber/v2 v2.6.0
+	github.com/gofiber/fiber/v2 v2.7.1
 	github.com/klauspost/compress v1.11.13 // indirect
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
